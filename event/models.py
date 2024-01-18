@@ -3,9 +3,10 @@ from django.db import models
 # Create your models here.
 
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+# from django.contrib.auth import get_user_model
 
-User = get_user_model()
+# User = get_user_model()
 
 
 class Venue(models.Model):
@@ -21,6 +22,9 @@ class Event(models.Model):
     description = models.TextField()
     date = models.DateTimeField()
     venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    organizer = models.ForeignKey(User, on_delete=models.CASCADE)
+    participants = models.ManyToManyField(
+        User, related_name='events_participating', blank=True)
 
     def __str__(self):
         return self.title

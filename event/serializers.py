@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
+
 from .models import Event, Venue
 
 
@@ -14,6 +16,9 @@ class EventSerializer(serializers.ModelSerializer):
         queryset=Venue.objects.all(), write_only=True, source='venue'
     )  # Use venue_id for write operations
 
+    organizer = serializers.StringRelatedField()  # Display organizer's username
+
     class Meta:
         model = Event
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ['participants']
